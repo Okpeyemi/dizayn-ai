@@ -165,7 +165,7 @@ const InputMessage = () => {
       <div className="w-full flex flex-col items-center justify-center p-4 h-full">
         <div className="max-w-4xl text-center mb-4">
           <h1 className="text-5xl font-bold text-foreground font-rakkas mb-10">
-            Qu'est-ce qu'on fait aujourd'hui ?
+            Qu&apos;est-ce qu&apos;on fait aujourd&apos;hui ?
           </h1>
 
           <DesignInput onSubmit={handlePromptSubmit} />
