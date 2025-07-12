@@ -63,24 +63,32 @@ const CreateDesignModal: React.FC<CreateDesignModalProps> = ({
     onClose();
   };
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    // Ferme le modal seulement si on clique sur l'overlay, pas sur le contenu
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 border border-muted flex items-center justify-center z-50">
-      <div className="bg-background rounded-lg w-full font-dm-sans max-w-6xl flex flex-col p-4">
+    <div
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+      onClick={handleOverlayClick}
+    >
+      <div className="bg-background rounded-lg w-full border border-muted font-dm-sans max-w-6xl flex flex-col p-4 relative">
+        {/* Bouton de fermeture positionné sur la carte */}
+        <button
+          onClick={onClose}
+          className="absolute -top-0 -right-12 p-2 bg-background border border-muted rounded-full shadow-lg hover:bg-muted transition-colors cursor-pointer z-10"
+        >
+          <X className="w-5 h-5 text-foreground" />
+        </button>
+
         {/* Header */}
-        <div className="flex items-center justify-between p-6">
-          <div className="flex items-center space-x-6">
-            <h2 className="text-xl font-bold text-foreground">
-              Créer un design
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-muted rounded-full transition-colors"
-          >
-            <X className="w-5 h-5 text-foreground" />
-          </button>
+        <div className="flex items-center p-6">
+          <h2 className="text-xl font-bold text-foreground">Créer un design</h2>
         </div>
 
         <div className="flex flex-1 overflow-hidden px-6 pb-6">
@@ -106,9 +114,7 @@ const CreateDesignModal: React.FC<CreateDesignModalProps> = ({
 
           {/* Section des modèles */}
           <div className="flex-1">
-            <h3 className="text-lg font-medium text-foreground mb-4">
-              Modèles
-            </h3>
+            <h3 className="text-lg font-medium text-foreground mb-4">Modèles</h3>
             <div className="grid grid-cols-4 gap-4 overflow-y-auto max-h-[calc(80vh-200px)]">
               {templates[selectedRatio]?.map((template) => (
                 <div
