@@ -4,26 +4,27 @@ import React, { useState, useRef } from "react";
 import { Ratio, Image, ArrowUp, Plus, X } from "lucide-react";
 
 interface DesignInputProps {
-  onSubmit?: (prompt: string) => void;
+  onSubmit?: (prompt: string, images: string[]) => void;
   placeholder?: string;
 }
 
 const DesignInput = ({
   onSubmit,
-  placeholder = "Design ce que tu veux",
+  placeholder = "Décrivez le design que vous voulez créer...",
 }: DesignInputProps) => {
   const [prompt, setPrompt] = useState("");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = () => {
-    if (prompt.trim() && onSubmit) {
-      onSubmit(prompt);
+    if ((prompt.trim() || selectedImages.length > 0) && onSubmit) {
+      onSubmit(prompt, selectedImages);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       handleSubmit();
     }
   };
@@ -60,7 +61,7 @@ const DesignInput = ({
             <div key={index} className="relative max-w-xs">
               <img
                 src={image}
-                alt={`Image sélectionnée ${index + 1}`}
+                alt={`Image de référence ${index + 1}`}
                 className="max-w-full max-h-40 object-contain rounded-lg"
               />
               <button
@@ -80,7 +81,7 @@ const DesignInput = ({
         onKeyDown={handleKeyPress}
         placeholder={placeholder}
         className="flex-1 w-full text-muted-foreground bg-transparent text-lg placeholder-muted-foreground focus:outline-none resize-none"
-        rows={2}
+        rows={3}
       />
 
       <input
@@ -94,31 +95,28 @@ const DesignInput = ({
 
       <div className="flex items-center justify-between space-x-2 w-full">
         <div className="flex items-center space-x-4">
-          <button className="hover:bg-primary-foreground p-2 rounded-full transition-colors cursor-pointer">
-            <Plus className="w-4 h-4 text-white" />
-          </button>
-
-          <button className="flex items-center space-x-2 bg-primary-foreground hover:bg-background px-3 py-2 rounded-lg transition-colors cursor-pointer">
-            <Ratio className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground text-sm font-medium">
-              9 : 6
-            </span>
-          </button>
-
           <button
             onClick={handleImageSelect}
             className="flex items-center space-x-2 bg-primary-foreground hover:bg-background px-3 py-2 rounded-lg transition-colors cursor-pointer"
           >
             <Image className="w-4 h-4 text-muted-foreground" />
             <span className="text-muted-foreground text-sm font-medium">
-              Choisir une image
+              Image de référence
+            </span>
+          </button>
+
+          <button className="flex items-center space-x-2 bg-primary-foreground hover:bg-background px-3 py-2 rounded-lg transition-colors cursor-pointer">
+            <Ratio className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground text-sm font-medium">
+              1024 × 1024
             </span>
           </button>
         </div>
 
         <button
           onClick={handleSubmit}
-          className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer"
+          disabled={!prompt.trim() && selectedImages.length === 0}
+          className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ArrowUp className="w-5 h-5 text-gray-900" />
         </button>

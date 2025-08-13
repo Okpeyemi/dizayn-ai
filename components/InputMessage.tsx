@@ -161,40 +161,42 @@ const InputMessage = () => {
   ];
 
   return (
-    <div className="flex-1 bg-primary-foreground mr-3 my-4 rounded-[20px] flex flex-col items-center justify-center p-8 border border-muted">
-      <div className="w-full flex flex-col items-center justify-center p-4 h-full">
-        <div className="max-w-4xl text-center mb-4">
-          <h1 className="text-5xl font-bold text-foreground font-rakkas mb-10">
-            Qu&apos;est-ce qu&apos;on fait aujourd&apos;hui ?
-          </h1>
+    <div className="w-full flex flex-col items-center justify-center p-4 h-full">
+      <div className="max-w-4xl text-center mb-4">
+        <h1 className="text-5xl font-bold text-foreground font-rakkas mb-10">
+          Qu&apos;est-ce qu&apos;on fait aujourd&apos;hui ?
+        </h1>
 
-          <DesignInput onSubmit={handlePromptSubmit} />
-        </div>
+        <DesignInput onSubmit={handlePromptSubmit} />
+      </div>
 
-        <div
-          className={`${
-            cardDataList.length > 0
-              ? "mt-12 flex flex-wrap w-full justify-start gap-8 overflow-y-auto"
-              : "hidden"
-          }`}
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none", overflowY: "auto" }}
-        >
-          <style jsx>{`
-            div::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
-          {cardDataList.map((cardData, idx) => (
-            <ServiceCard
-              key={idx}
-              title={cardData.title}
-              ratio={cardData.ratio}
-              modifiedDate={cardData.modifiedDate}
-              imageUrl={cardData.imageUrl}
-              onCardClick={handleCardClick}
-            />
-          ))}
-        </div>
+      <div
+        className={`${
+          cardDataList.length > 0
+            ? "mt-12 flex flex-wrap w-full justify-start gap-8 overflow-y-auto"
+            : "hidden"
+        }`}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          overflowY: "auto",
+        }}
+      >
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        {cardDataList.map((cardData, idx) => (
+          <ServiceCard
+            key={idx}
+            title={cardData.title}
+            ratio={cardData.ratio}
+            modifiedDate={cardData.modifiedDate}
+            imageUrl={cardData.imageUrl}
+            onCardClick={handleCardClick}
+          />
+        ))}
       </div>
     </div>
   );

@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Home, User, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 import CreateDesignModal from "./CreateDesignModal";
 
 const Sidebar = () => {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const pathname = usePathname();
 
     // Assure que le composant est monté côté client
     useEffect(() => {
@@ -37,7 +39,7 @@ const Sidebar = () => {
                 </div>
 
                 <div className="flex flex-col items-center space-y-2">
-                    <button className="p-1 w-10 h-10 bg-muted rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
+                    <button className="p-1 w-10 h-10 rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
                         <Home className="w-6 h-6 text-foreground" />
                     </button>
                     <div className="text-foreground text-xs font-medium font-dm-sans text-center">
@@ -47,11 +49,7 @@ const Sidebar = () => {
 
                 <div className="flex-1"></div>
 
-                <button
-                    onClick={toggleTheme}
-                    className="p-1 w-10 h-10 rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer"
-                >
-                    {/* Icône neutre pendant le chargement */}
+                <button className="p-1 w-10 h-10 rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
                     <div className="w-6 h-6"></div>
                 </button>
 
@@ -78,7 +76,12 @@ const Sidebar = () => {
                 </div>
 
                 <div className="flex flex-col items-center space-y-2">
-                    <button className="p-1 w-10 h-10 bg-muted rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
+                    <button
+                        onClick={() => window.location.href = "/dashboard"}
+                        className={`p-1 w-10 h-10 rounded-[10px] flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer ${
+                            pathname === "/dashboard" ? "bg-muted" : ""
+                        }`}
+                    >
                         <Home className="w-6 h-6 text-foreground" />
                     </button>
                     <div className="text-foreground text-xs font-medium font-dm-sans text-center">
